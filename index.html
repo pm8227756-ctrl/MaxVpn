@@ -2,204 +2,134 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101114">
 <title>MAX VPN</title>
-
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;background:#101114;color:white;
+ font-family:Arial,sans-serif;text-align:center
 }
-
-body {
-  margin: 0;
-  background: #071426;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
+header{padding:25px;font-size:29px;font-weight:bold}
+.logo{
+ display:inline-flex;align-items:center;gap:10px;
+ color:#fff
 }
-
-header {
-  padding: 30px;
-  font-size: 30px;
-  font-weight: bold;
-  color: #42a5ff;
+.logo-m{
+ background:#55565b;color:white;border-radius:13px;
+ width:43px;height:43px;display:grid;
+ place-items:center;font-size:29px
 }
-
-.card {
-  margin: 15px;
-  padding: 25px 15px;
-  background: #102642;
-  border-radius: 24px;
+.card{
+ margin:16px;padding:24px 18px;
+ background:#1c1d22;border-radius:23px
 }
-
-.status {
-  color: #ff6464;
-  font-size: 18px;
+h2{font-size:22px}
+p{color:#aeb2bd;line-height:1.5}
+input{
+ width:100%;padding:17px;margin:15px 0;
+ background:#292b32;border:1px solid #454752;
+ border-radius:13px;color:white;font-size:17px;
+ text-align:center;outline:none
 }
-
-.circle {
-  width: 150px;
-  height: 150px;
-  border: 5px solid #278cff;
-  border-radius: 50%;
-  margin: 30px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 23px;
-  font-weight: bold;
-  background: #16385f;
-  cursor: pointer;
-  transition: .3s;
+button{
+ width:100%;padding:16px;border:0;
+ border-radius:13px;background:#287fff;
+ color:white;font-size:17px;font-weight:bold;
+ cursor:pointer
 }
-
-.circle.on {
-  border-color: #20df9a;
-  box-shadow: 0 0 30px #20df9a66;
+button:active{transform:scale(.98)}
+.message{margin-top:17px;font-size:14px}
+.hidden{display:none}
+.code-icon{font-size:48px;margin:10px}
+.footer{color:#777;margin:30px;font-size:12px}
+.menu{
+ display:flex;gap:10px;margin:16px
 }
-
-.countries {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 15px 5px;
-}
-
-.country {
-  flex: 0 0 85px;
-  background: #193656;
-  border: 2px solid transparent;
-  border-radius: 15px;
-  padding: 12px 5px;
-  color: white;
-  cursor: pointer;
-}
-
-.country.selected {
-  border-color: #278cff;
-  background: #244d78;
-}
-
-.flag {
-  font-size: 28px;
-}
-
-.name {
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.info {
-  color: #9db3ce;
-  margin: 25px;
-  font-size: 13px;
-}
+.menu button{background:#292b32}
+.menu button.active{background:#287fff}
 </style>
 </head>
-
 <body>
 
-<header>🔵 MAX VPN</header>
+<header>
+ <div class="logo">
+  <span class="logo-m">M</span>
+  MAX VPN
+ </div>
+</header>
 
-<div class="card">
-
-<h2>Защита соединения</h2>
-
-<p class="status" id="status">
-● Отключено
-</p>
-
-<div class="circle" id="button"
-onclick="toggleVPN()">
-POWER
+<div class="menu">
+ <button class="active" onclick="showPage('access',this)">
+  🔑 Доступ
+ </button>
+ <button onclick="showPage('servers',this)">
+  🌍 Серверы
+ </button>
 </div>
 
-<p id="selected">
-Выбери страну
-</p>
+<div class="card" id="access">
+ <div class="code-icon">🔐</div>
+ <h2>Активация MAX VPN</h2>
+ <p>Введи свой специальный код приглашения</p>
 
-<h3>🌍 Выбор страны</h3>
+ <input id="code"
+ placeholder="ВВЕДИ КОД"
+ maxlength="40"
+ autocomplete="off">
 
-<div class="countries">
+ <button onclick="activate()">
+  АКТИВИРОВАТЬ
+ </button>
 
-<div class="country selected"
-onclick="choose(this,'Германия')">
-<div class="flag">🇩🇪</div>
-<div class="name">Германия</div>
+ <div class="message" id="message"></div>
 </div>
 
-<div class="country"
-onclick="choose(this,'Финляндия')">
-<div class="flag">🇫🇮</div>
-<div class="name">Финляндия</div>
+<div class="card hidden" id="servers">
+ <h2>🌍 Выбор сервера</h2>
+ <p>Список доступных стран MAX VPN</p>
+ <p>🇩🇪 Германия</p>
+ <p>🇫🇮 Финляндия</p>
+ <p>🇸🇪 Швеция</p>
+ <p>🇳🇱 Нидерланды</p>
+ <p>🇺🇸 США</p>
 </div>
 
-<div class="country"
-onclick="choose(this,'Швеция')">
-<div class="flag">🇸🇪</div>
-<div class="name">Швеция</div>
-</div>
-
-<div class="country"
-onclick="choose(this,'США')">
-<div class="flag">🇺🇸</div>
-<div class="name">США</div>
-</div>
-
-<div class="country"
-onclick="choose(this,'Нидерланды')">
-<div class="flag">🇳🇱</div>
-<div class="name">Нидерланды</div>
-</div>
-
-</div>
-</div>
-
-<div class="info">
-MAX VPN • Version 1.1<br>
-Ваш интернет — под вашим контролем.
-<br><br>
-Демонстрационный режим
+<div class="footer">
+ MAX VPN • Version 3.0<br>
+ Access system
 </div>
 
 <script>
-
-let connected = false;
-
-function toggleVPN() {
-
-connected = !connected;
-
-const button =
-document.getElementById("button");
-
-const status =
-document.getElementById("status");
-
-button.classList.toggle("on", connected);
-
-status.innerText = connected
-? "● ДЕМО: ВКЛЮЧЕНО"
-: "● Отключено";
-
-status.style.color = connected
-? "#20df9a"
-: "#ff6464";
-
+function showPage(page,button){
+ document.getElementById('access').classList.toggle(
+  'hidden',page!=='access'
+ );
+ document.getElementById('servers').classList.toggle(
+  'hidden',page!=='servers'
+ );
+ document.querySelectorAll('.menu button').forEach(b=>
+  b.classList.remove('active')
+ );
+ button.classList.add('active');
 }
 
-function choose(element, country) {
+function activate(){
+ const code=document.getElementById('code')
+ .value.trim().toUpperCase();
+ const message=document.getElementById('message');
 
-document.querySelectorAll(".country")
-.forEach(el => el.classList.remove("selected"));
+ if(!code){
+  message.style.color='#ff7777';
+  message.innerText='Введи код приглашения!';
+  return;
+ }
 
-element.classList.add("selected");
-
-document.getElementById("selected")
-.innerText = "Выбрана страна: " + country;
-
+ message.style.color='#ffbd58';
+ message.innerText=
+ 'Демо: проверка кодов ещё не подключена.';
 }
-
 </script>
 
 </body>

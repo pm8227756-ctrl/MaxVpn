@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAX VPN</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #071426;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+header {
+  padding: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #42a5ff;
+}
+
+.card {
+  margin: 15px;
+  padding: 25px 15px;
+  background: #102642;
+  border-radius: 24px;
+}
+
+.status {
+  color: #ff6464;
+  font-size: 18px;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  border: 5px solid #278cff;
+  border-radius: 50%;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-weight: bold;
+  background: #16385f;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.circle.on {
+  border-color: #20df9a;
+  box-shadow: 0 0 30px #20df9a66;
+}
+
+.countries {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 15px 5px;
+}
+
+.country {
+  flex: 0 0 85px;
+  background: #193656;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  padding: 12px 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.country.selected {
+  border-color: #278cff;
+  background: #244d78;
+}
+
+.flag {
+  font-size: 28px;
+}
+
+.name {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.info {
+  color: #9db3ce;
+  margin: 25px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔵 MAX VPN</header>
+
+<div class="card">
+
+<h2>Защита соединения</h2>
+
+<p class="status" id="status">
+● Отключено
+</p>
+
+<div class="circle" id="button"
+onclick="toggleVPN()">
+POWER
+</div>
+
+<p id="selected">
+Выбери страну
+</p>
+
+<h3>🌍 Выбор страны</h3>
+
+<div class="countries">
+
+<div class="country selected"
+onclick="choose(this,'Германия')">
+<div class="flag">🇩🇪</div>
+<div class="name">Германия</div>
+</div>
+
+<div class="country"
+onclick="choose(this,'Финляндия')">
+<div class="flag">🇫🇮</div>
+<div class="name">Финляндия</div>
+</div>
+
+<div class="country"
+onclick="choose(this,'Швеция')">
+<div class="flag">🇸🇪</div>
+<div class="name">Швеция</div>
+</div>
+
+<div class="country"
+onclick="choose(this,'США')">
+<div class="flag">🇺🇸</div>
+<div class="name">США</div>
+</div>
+
+<div class="country"
+onclick="choose(this,'Нидерланды')">
+<div class="flag">🇳🇱</div>
+<div class="name">Нидерланды</div>
+</div>
+
+</div>
+</div>
+
+<div class="info">
+MAX VPN • Version 1.1<br>
+Ваш интернет — под вашим контролем.
+<br><br>
+Демонстрационный режим
+</div>
+
+<script>
+
+let connected = false;
+
+function toggleVPN() {
+
+connected = !connected;
+
+const button =
+document.getElementById("button");
+
+const status =
+document.getElementById("status");
+
+button.classList.toggle("on", connected);
+
+status.innerText = connected
+? "● ДЕМО: ВКЛЮЧЕНО"
+: "● Отключено";
+
+status.style.color = connected
+? "#20df9a"
+: "#ff6464";
+
+}
+
+function choose(element, country) {
+
+document.querySelectorAll(".country")
+.forEach(el => el.classList.remove("selected"));
+
+element.classList.add("selected");
+
+document.getElementById("selected")
+.innerText = "Выбрана страна: " + country;
+
+}
+
+</script>
+
+</body>
+</html>
